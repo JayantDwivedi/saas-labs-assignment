@@ -1,0 +1,75 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+table {
+    border-collapse: collapse;
+    height: 200px;
+}
+
+table,
+td,
+th {
+    border: 1px solid;
+    padding: 4px 8px;
+    position: relative;
+}
+tr{
+    height: auto;
+}
+
+tr:hover {
+    background-color: rgb(242, 236, 236);
+}
+
+td{
+    vertical-align: top;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    width: 100%;
+    position: absolute;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid lightgrey;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.pagination-btn {
+    border: none;
+    cursor: pointer;
+}
+
+.pagination-btn:disabled {
+    cursor: default;
+}
