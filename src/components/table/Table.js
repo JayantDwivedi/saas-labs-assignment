@@ -6,7 +6,7 @@ const Table = ({ columns, pagination, data, loading }) => {
     const [tdata, setTdata] = useState(data ?? []);
     const [dataToShow, setDataToShow] = useState([]);
     const [pageIndex, setPageIndex] = useState(pagination?.pageIndex ?? 0);
-    const [pageSize, setPageSize] = useState(pagination?.pageSize ?? 10);
+    const [pageSize] = useState(pagination?.pageSize ?? 10);
 
     useEffect(() => {
         setTdata(data);
@@ -23,7 +23,7 @@ const Table = ({ columns, pagination, data, loading }) => {
         if (tdata.length > 0) {
             getPaginatedData();
         }
-    }, [pageIndex, pageSize, JSON.stringify(tdata)])
+    }, [pageIndex, pageSize, tdata.length])
 
 
     const handleNext = () => {
@@ -38,35 +38,29 @@ const Table = ({ columns, pagination, data, loading }) => {
 
     return (
         <div className='table-container'>
-            <table>
+            {loading ? (<div data-testid="loader" className='loading-container'>
+                <span className='loader'></span>
+            </div>) : <table>
                 <thead>
                     <tr>
                         {columns?.map((x) => (<th key={x.value}>{x.label}</th>))}
                     </tr>
                 </thead>
-                {
-                    loading ?
-                        (<div className='loading-container'>
-                            <span class="loader"></span>
-                        </div>) : (
-                            <tbody>
-                                {dataToShow?.map((row, rowIndex) => (
-                                    <tr key={rowIndex}>
-                                        {columns?.map((col, colIndex) => (
-                                            <td key={colIndex}>{row[col.value]}</td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        )
-                }
-            </table>
+                <tbody>
+                    {dataToShow?.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                            {columns?.map((col, colIndex) => (
+                                <td key={colIndex}>{row[col.value]}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>}
             {pagination && (<div className='pagination-container'>
-                <button className='pagination-btn' disabled={pageIndex === 0} onClick={handlePrev}>  <i class="fa-solid fa-chevron-left"></i></button>
+                <button data-testid="prev-btn" className='pagination-btn' disabled={pageIndex === 0} onClick={handlePrev}>  <i className="fa-solid fa-chevron-left"></i></button>
                 {pageIndex + 1}
-                <button className='pagination-btn' disabled={((pageIndex * pageSize) + 1) === tdata.length} onClick={handleNext}><i class="fa-solid fa-chevron-right"></i></button>
+                <button data-testid="next-btn" className='pagination-btn' disabled={((pageIndex * pageSize) + 1) === tdata.length} onClick={handleNext}><i className="fa-solid fa-chevron-right"></i></button>
             </div>)}
-
         </div>
     )
 }
